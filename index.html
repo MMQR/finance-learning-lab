@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Learning Lab - Plateforme Interactive</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        .info-box h2 {
+            margin-bottom: 15px;
+        }
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .info-box li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .info-box li:last-child {
+            border-bottom: none;
+        }
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .module-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        .module-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 20px 10px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #764ba2;
+        }
+        .status {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Finance Learning Lab</h1>
+        <p class="subtitle">Plateforme interactive d'apprentissage de l'analyse financière</p>
+        
+        <div class="status">
+            <strong>🚧 Application en cours de développement</strong>
+            <p>Le code complet avec les 200+ questions générées par ChatGPT est en cours d'intégration.</p>
+        </div>
+
+        <div class="info-box">
+            <h2>🎯 Objectif du Projet</h2>
+            <p>Créer une plateforme d'apprentissage moderne et interactive pour maîtriser l'analyse financière à travers 4 modules complets avec un panachage de formats pédagogiques (QCM, cas pratiques, flashcards, etc.).</p>
+        </div>
+
+        <h2 style="margin-top: 40px; color: #667eea;">📚 Les 4 Modules</h2>
+        <div class="module-grid">
+            <div class="module-card">
+                <h3>📊Module 1 : Les Fondamentaux</h3>
+                <p>États financiers et bases de l'analyse</p>
+                <p><strong>50+ questions</strong> | Mix IFRS + PCG</p>
+            </div>
+            <div class="module-card">
+                <h3>📈 Module 2 : Les Ratios Financiers</h3>
+                <p>Liquidité, rentabilité et structure</p>
+                <p><strong>50+ questions</strong> | Analyse approfondie</p>
+            </div>
+            <div class="module-card">
+                <h3>💰 Module 3 : Méthodes de Valorisation</h3>
+                <p>Approches comptables et DCF</p>
+                <p><strong>50+ questions</strong> | Théorie et pratique</p>
+            </div>
+            <div class="module-card">
+                <h3>🎯 Module 4 : Cas Pratiques</h3>
+                <p>Analyses d'entreprises réelles</p>
+                <p><strong>50+ questions</strong> | Application concrète</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://chatgpt.com/c/69238eb5-7590-832f-8e7c-16c64b294068" class="btn" target="_blank">🤖 Voir les Questions ChatGPT</a>
+            <a href="https://github.com/MMQR/finance-learning-lab" class="btn" target="_blank">💻 Code Source GitHub</a>
+        </div>
+
+        <div class="info-box" style="margin-top: 40px;">
+            <h2>🚀 Prochaines Étapes</h2>
+            <ul>
+                <li>✅ Repository GitHub créé</li>
+                <li>✅ Banque de 50+ questions Module 1 générée par ChatGPT</li>
+                <li>🔄 Intégration du code JavaScript interactif</li>
+                <li>🔄 Génération des questions Modules 2, 3 et 4</li>
+                <li>🔄 Système de quiz avec sélection aléatoire (4 questions / 50)</li>
+                <li>🔄 Activation GitHub Pages pour déploiement</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
