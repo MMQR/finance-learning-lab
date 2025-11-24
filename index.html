@@ -6,7 +6,7 @@
     <title>Finance Learning Lab - Plateforme Interactive</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-                :root {
+        :root {
             --neon-cyan: #00f3ff;
             --neon-magenta: #ff006e;
             --neon-violet: #a855f7;
@@ -15,7 +15,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at 10% 20%, rgba(0,243,255,0.15), transparent 50%), radial-gradient(circle at 90% 80%, rgba(255,0,110,0.15), transparent 50%), var(--bg-dark);            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, rgba(0,243,255,0.15), transparent 50%), radial-gradient(circle at 90% 80%, rgba(255,0,110,0.15), transparent 50%);
             padding: 20px;
         }
         .container {
@@ -27,18 +27,12 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         h1 {
-                    h1 {
             color: var(--neon-cyan);
             text-shadow: 0 0 10px rgba(0,243,255,0.8), 0 0 20px rgba(0,243,255,0.6), 0 0 30px rgba(0,243,255,0.4);
         }
         h2 {
-            color: var(--neon-violet);
-            text-shadow: 0 0 8px rgba(168,85,247,0.8), 0 0 16px rgba(168,85,247,0.6);
-        }
-            text-align: center;
-            color: #667eea;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 10px rgba(255,0,110,0.8), 0 0 20px rgba(255,0,110,0.6), 0 0 30px rgba(0,0,0,0.4);
         }
         .subtitle {
             text-align: center;
@@ -107,63 +101,173 @@
             margin: 20px 0;
             border-radius: 5px;
         }
+        .module-section {
+            display: none;
+        }
+        .back-btn {
+            display: inline-block;
+            background: var(--neon-cyan);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border: none;
+            font-weight: bold;
+        }
+        .question {
+            background: #f0f0f0;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #e0e0e0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>⚡ Finance Learning Lab</h1>
-        <p class="subtitle">Plateforme interactive d'apprentissage de l'analyse financière</p>
-        
-        <div class="status">
-            <strong>🚧 Application en cours de développement</strong>
-            <p>Le code complet avec les 200+ questions générées par ChatGPT est en cours d'intégration.</p>
+        <div id="home">
+            <h1>⚡ Finance Learning Lab</h1>
+            <p class="subtitle">Plateforme interactive d'apprentissage de l'analyse financière</p>
+            
+            <div class="status">
+                <strong>🚧 Application en cours de développement</strong>
+                <p>Le code complet avec les 200+ questions générées par ChatGPT est en cours d'intégration.</p>
+            </div>
+            <div class="info-box">
+                <h2>🎯 Objectif du Projet</h2>
+                <p>Créer une plateforme d'apprentissage moderne et interactive pour maîtriser l'analyse financière à travers 4 modules complets avec un panachage de formats pédagogiques (QCM, cas pratiques, flashcards, etc.).</p>
+            </div>
+            <h2 style="margin-top: 40px; color: #667eea;">📚 Les 4 Modules</h2>
+            <div class="module-grid">
+                <div class="module-card" data-target="module1">
+                    <h3>📊Module 1 : Les Fondamentaux</h3>
+                    <p>États financiers et bases de l'analyse</p>
+                    <p><strong>50+ questions</strong> | Mix IFRS + PCG</p>
+                </div>
+                <div class="module-card" data-target="module2">
+                    <h3>📈 Module 2 : Les Ratios Financiers</h3>
+                    <p>Liquidité, rentabilité et structure</p>
+                    <p><strong>50+ questions</strong> | Analyse approfondie</p>
+                </div>
+                <div class="module-card" data-target="module3">
+                    <h3>💰 Module 3 : Méthodes de Valorisation</h3>
+                    <p>Approches comptables et DCF</p>
+                    <p><strong>50+ questions</strong> | Théorie et pratique</p>
+                </div>
+                <div class="module-card" data-target="module4">
+                    <h3>🎯 Module 4 : Cas Pratiques</h3>
+                    <p>Analyses d'entreprises réelles</p>
+                    <p><strong>50+ questions</strong> | Application concrète</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="https://chatgpt.com/c/69238eb5-7590-832f-8e7c-16c64b294068" class="btn" target="_blank">🤖 Voir les Questions ChatGPT</a>
+                <a href="https://github.com/MMQR/finance-learning-lab" class="btn" target="_blank">💻 Code Source GitHub</a>
+            </div>
+            <div class="info-box" style="margin-top: 40px;">
+                <h2>🚀 Prochaines Étapes</h2>
+                <ul>
+                    <li>✅ Repository GitHub créé</li>
+                    <li>✅ Banque de 50+ questions Module 1 générée par ChatGPT</li>
+                    <li>✅ Intégration du code JavaScript interactif</li>
+                    <li>📍 Génération des questions Modules 2, 3 et 4</li>
+                    <li>📋 Système de quiz avec sélection aléatoire (4 questions / 50)</li>
+                    <li>🎨 Activation GitHub Pages pour déploiement</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="info-box">
-            <h2>🎯 Objectif du Projet</h2>
-            <p>Créer une plateforme d'apprentissage moderne et interactive pour maîtriser l'analyse financière à travers 4 modules complets avec un panachage de formats pédagogiques (QCM, cas pratiques, flashcards, etc.).</p>
+        <!-- Module 1 Section -->
+        <div id="module1" class="module-section">
+            <button class="back-btn" id="back-home">← Retour à l'accueil</button>
+            <h2>📊 Module 1 : Les Fondamentaux</h2>
+            <p style="margin: 20px 0;">États financiers et bases de l'analyse financière</p>
+            
+            <div class="question">
+                <h3>Question 1</h3>
+                <p>Dans le Plan Comptable Général (PCG), quelle est la classe dédiée aux comptes de capitaux ?</p>
+                <div class="options">
+                    <div class="option">Classe 1</div>
+                    <div class="option">Classe 2</div>
+                    <div class="option">Classe 5</div>
+                    <div class="option">Classe 7</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>Question 2</h3>
+                <p>Qu'est-ce que le bilan comptable ?</p>
+                <div class="options">
+                    <div class="option">Un document qui présente les flux de trésorerie</div>
+                    <div class="option">Une photographie du patrimoine de l'entreprise à un instant T</div>
+                    <div class="option">Un état des charges et des produits</div>
+                    <div class="option">Un document fiscal uniquement</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>Question 3</h3>
+                <p>Dans un bilan, les actifs représentent :</p>
+                <div class="options">
+                    <div class="option">Ce que l'entreprise possède</div>
+                    <div class="option">Ce que l'entreprise doit</div>
+                    <div class="option">Les revenus de l'entreprise</div>
+                    <div class="option">Les charges de l'entreprise</div>
+                </div>
+            </div>
         </div>
 
-        <h2 style="margin-top: 40px; color: #667eea;">📚 Les 4 Modules</h2>
-        <div class="module-grid">
-            <div class="module-card">
-                <h3>📊Module 1 : Les Fondamentaux</h3>
-                <p>États financiers et bases de l'analyse</p>
-                <p><strong>50+ questions</strong> | Mix IFRS + PCG</p>
-            </div>
-            <div class="module-card">
-                <h3>📈 Module 2 : Les Ratios Financiers</h3>
-                <p>Liquidité, rentabilité et structure</p>
-                <p><strong>50+ questions</strong> | Analyse approfondie</p>
-            </div>
-            <div class="module-card">
-                <h3>💰 Module 3 : Méthodes de Valorisation</h3>
-                <p>Approches comptables et DCF</p>
-                <p><strong>50+ questions</strong> | Théorie et pratique</p>
-            </div>
-            <div class="module-card">
-                <h3>🎯 Module 4 : Cas Pratiques</h3>
-                <p>Analyses d'entreprises réelles</p>
-                <p><strong>50+ questions</strong> | Application concrète</p>
-            </div>
+        <!-- Module 2 Section -->
+        <div id="module2" class="module-section">
+            <button class="back-btn">← Retour à l'accueil</button>
+            <h2>📈 Module 2 : Les Ratios Financiers</h2>
+            <p style="margin: 20px 0;">Contenu en cours de développement...</p>
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="https://chatgpt.com/c/69238eb5-7590-832f-8e7c-16c64b294068" class="btn" target="_blank">🤖 Voir les Questions ChatGPT</a>
-            <a href="https://github.com/MMQR/finance-learning-lab" class="btn" target="_blank">💻 Code Source GitHub</a>
+        <!-- Module 3 Section -->
+        <div id="module3" class="module-section">
+            <button class="back-btn">← Retour à l'accueil</button>
+            <h2>💰 Module 3 : Méthodes de Valorisation</h2>
+            <p style="margin: 20px 0;">Contenu en cours de développement...</p>
         </div>
 
-        <div class="info-box" style="margin-top: 40px;">
-            <h2>🚀 Prochaines Étapes</h2>
-            <ul>
-                <li>✅ Repository GitHub créé</li>
-                <li>✅ Banque de 50+ questions Module 1 générée par ChatGPT</li>
-                <li>🔄 Intégration du code JavaScript interactif</li>
-                <li>🔄 Génération des questions Modules 2, 3 et 4</li>
-                <li>🔄 Système de quiz avec sélection aléatoire (4 questions / 50)</li>
-                <li>🔄 Activation GitHub Pages pour déploiement</li>
-            </ul>
+        <!-- Module 4 Section -->
+        <div id="module4" class="module-section">
+            <button class="back-btn">← Retour à l'accueil</button>
+            <h2>🎯 Module 4 : Cas Pratiques</h2>
+            <p style="margin: 20px 0;">Contenu en cours de développement...</p>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const target = card.getAttribute('data-target');
+                document.getElementById('home').style.display = 'none';
+                document.querySelectorAll('.module-section').forEach(sec => sec.style.display = 'none');
+                document.getElementById(target).style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.back-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.module-section').forEach(sec => sec.style.display = 'none');
+                document.getElementById('home').style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>
