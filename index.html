@@ -2008,7 +2008,145 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded",()=>{const home=document.getElementById("home");const modules=["module1","module2","module3","module4"].map(id=>document.getElementById(id));document.querySelectorAll(".module-card").forEach(card=>{card.addEventListener("click",()=>{const target=card.dataset.target;home.style.display="none";modules.forEach(m=>m.style.display="none");document.getElementById(target).style.display="block"})});document.querySelectorAll(".back-btn").forEach(btn=>{btn.addEventListener("click",()=>{modules.forEach(m=>m.style.display="none");home.style.display="block"})});document.querySelectorAll(".check-btn").forEach(btn=>{btn.addEventListener("click",()=>{const module=btn.closest("section");const radios=module.querySelectorAll('input[type="radio"]');let score=0;radios.forEach(r=>{if(r.checked){localStorage.setItem(r.name,r.value);const correct=r.value==="a";r.parentElement.style.color=correct?"green":"red";if(correct)score++}});const res=module.querySelector(".result");if(res)res.textContent="Score : "+score})});document.querySelectorAll(".reset-btn").forEach(btn=>{btn.addEventListener("click",()=>{const module=btn.closest("section");module.querySelectorAll('input[type="radio"]').forEach(r=>{r.checked=false;localStorage.removeItem(r.name);r.parentElement.style.color=""});const res=module.querySelector(".result");if(res)res.textContent=""})});modules.forEach(m=>{const radios=m.querySelectorAll('input[type="radio"]');radios.forEach(r=>{const saved=localStorage.getItem(r.name);if(saved===r.value)r.checked=true})})});
+// === BANQUES DE QUESTIONS PAR MODULE ===
+const questionBanks = {
+  module1: [
+    {q: "Dans le Plan Comptable Général (PCG), quelle classe regroupe principalement les comptes d'immobilisations ?", options: ["Classe 1", "Classe 2", "Classe 3", "Classe 6"], answer: 1},
+    {q: "Quelle classe regroupe les comptes de charges dans le PCG français ?", options: ["Classe 4", "Classe 5", "Classe 6", "Classe 7"], answer: 2},
+    {q: "Les comptes de produits (chiffre d'affaires, subventions d'exploitation, etc.) appartiennent à :", options: ["La classe 3", "La classe 5", "La classe 6", "La classe 7"], answer: 3},
+    {q: "Le bilan présente la situation d'une entreprise :", options: ["Sur une période donnée", "À une date donnée", "Sur 3 exercices", "Sans immobilisations"], answer: 1},
+    {q: "Le compte de résultat mesure principalement :", options: ["Le patrimoine", "La performance sur une période", "Les flux futurs", "Les investissements"], answer: 1}
+  ],
+  module2: [
+    {q: "Le current ratio se calcule comme :", options: ["Actifs courants / Dettes LT", "Actifs courants / Dettes courantes", "Trésorerie / Dettes courantes", "CP / Total bilan"], answer: 1},
+    {q: "Le quick ratio exclut généralement :", options: ["La trésorerie", "Les créances", "Les stocks", "Les placements CT"], answer: 2},
+    {q: "Un current ratio < 1 traduit :", options: ["Trésorerie excédentaire", "Risque de liquidité", "Forte rentabilité", "Endettement négatif"], answer: 1},
+    {q: "Le ROE mesure la rentabilité :", options: ["Des actifs", "Des capitaux propres", "Des dettes", "Du CA"], answer: 1},
+    {q: "Le ROA se calcule comme :", options: ["RN / CP", "RN / Total actif", "REX / CA", "EBITDA / Dettes"], answer: 1}
+  ],
+  module3: [
+    {q: "La méthode DCF consiste à :", options: ["Actualiser dividendes passés", "Actualiser flux futurs", "Actualiser RN", "Actualiser CA"], answer: 1},
+    {q: "Dans une DCF, on utilise :", options: ["FCF actionnaires", "FCF to the firm", "Flux avant impôts", "Amortissements"], answer: 1},
+    {q: "Le PER se calcule comme :", options: ["Prix / CA par action", "Prix / RN par action", "RN / Prix", "Cap / Trésorerie"], answer: 1},
+    {q: "EV correspond à :", options: ["Cap - Trésorerie", "Cap + Dettes nettes", "RN + Amort", "Actif - Dettes"], answer: 1},
+    {q: "Le WACC représente :", options: ["Coût dette seule", "Coût moyen pondéré", "Coût CP seuls", "Taux sans risque"], answer: 1}
+  ],
+  module4: [
+    {q: "Une VAN positive indique :", options: ["Destruction valeur", "Création valeur", "Taux < sans risque", "Impact nul"], answer: 1},
+    {q: "Le TRI est le taux qui rend :", options: ["VAN = 0", "RN nul", "BFR = 0", "WACC = taux SR"], answer: 0},
+    {q: "Structure équilibrée = :", options: ["Zéro dette", "CP + dette soutenable", "BFR nul", "Gearing infini"], answer: 1},
+    {q: "Or long terme implique :", options: ["Immo financées LT", "Immo par crédit fournisseur", "Stocks par CP", "Immo par CT"], answer: 0},
+    {q: "BFR positif signifie :", options: ["Payé avant règlement", "Financement cycle", "Besoin nul", "Stocks nuls"], answer: 1}
+  ]
+};
+
+// === FONCTION TIRAGE ALÉATOIRE ===
+function getRandomQuestions(moduleQuestions, count = 5) {
+  const shuffled = [...moduleQuestions].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
+// === RENDU HTML DES QUESTIONS ===
+function renderQuestions(questions, moduleId) {
+  const wrapper = document.querySelector(`#${moduleId} .questions-wrapper`);
+  if (!wrapper) return;
+  
+  wrapper.innerHTML = questions.map((q, idx) => `
+    <article class="question-card">
+      <div class="question-header">
+        <h3>Question ${idx + 1}</h3>
+      </div>
+      <div class="question-body">${q.q}</div>
+      <ul class="options-list">
+        ${q.options.map((opt, i) => `
+          <li><label><input type="radio" name="q${idx}" value="${i}"> ${String.fromCharCode(65+i)}. ${opt}</label></li>
+        `).join('')}
+      </ul>
+    </article>
+  `).join('');
+}
+
+// === INITIALISATION ===
+document.addEventListener('DOMContentLoaded', () => {
+  const home = document.getElementById('home');
+  const modules = ['module1', 'module2', 'module3', 'module4'].map(id => document.getElementById(id));
+  
+  // Navigation modules
+  document.querySelectorAll('.module-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const target = card.dataset.target;
+      const moduleNum = target.replace('module', '');
+      const questionsData = questionBanks[target];
+      
+      if (questionsData) {
+        const randomQuestions = getRandomQuestions(questionsData, 5);
+        renderQuestions(randomQuestions, target);
+        
+        // Stocker les réponses correctes
+        window[`${target}_answers`] = randomQuestions.map(q => q.answer);
+      }
+      
+      home.style.display = 'none';
+      modules.forEach(m => m.style.display = 'none');
+      document.getElementById(target).style.display = 'block';
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+  
+  // Boutons retour
+  document.querySelectorAll('.back-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      modules.forEach(m => m.style.display = 'none');
+      home.style.display = 'block';
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+  
+  // Boutons vérification
+  document.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const module = btn.closest('section');
+      const moduleId = module.id;
+      const correctAnswers = window[`${moduleId}_answers`] || [];
+      let score = 0;
+      
+      module.querySelectorAll('.question-card').forEach((card, idx) => {
+        const selected = card.querySelector('input[type="radio"]:checked');
+        if (selected && parseInt(selected.value) === correctAnswers[idx]) {
+          score++;
+          card.style.borderColor = '#22c55e';
+          card.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+        } else if (selected) {
+          card.style.borderColor = '#ef4444';
+          card.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+        }
+      });
+      
+      const resultDiv = module.querySelector('.result');
+      if (resultDiv) {
+        resultDiv.textContent = `Score : ${score}/${correctAnswers.length} (${Math.round(score/correctAnswers.length*100)}%)`;
+        resultDiv.style.fontSize = '1.2rem';
+        resultDiv.style.fontWeight = 'bold';
+        resultDiv.style.color = score >= correctAnswers.length * 0.6 ? '#22c55e' : '#ef4444';
+      }
+    });
+  });
+  
+  // Boutons réinitialisation
+  document.querySelectorAll('.reset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const module = btn.closest('section');
+      module.querySelectorAll('.question-card').forEach(card => {
+        card.style.borderColor = '';
+        card.style.backgroundColor = '';
+        card.querySelectorAll('input').forEach(input => input.checked = false);
+      });
+      const resultDiv = module.querySelector('.result');
+      if (resultDiv) resultDiv.textContent = '';
+    });
+  });
+});
+
     </script>
 
   </body>
