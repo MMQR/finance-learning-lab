@@ -2064,6 +2064,15 @@ function renderQuestions(questions, moduleId) {
       </ul>
     </article>
   `).join('');
+    
+  // Ajouter boutons validation et reset
+  wrapper.innerHTML += `
+    <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem">
+      <button class="check-btn" style="padding:1rem 2rem;background:#22c55e;color:#fff;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;font-weight:600;box-shadow:0 4px 6px rgba(34,197,94,0.3);transition:all 0.3s">✓ Valider mes réponses</button>
+      <button class="reset-btn" style="padding:1rem 2rem;background:#ef4444;color:#fff;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;font-weight:600;box-shadow:0 4px 6px rgba(239,68,68,0.3);transition:all 0.3s">↻ Recommencer</button>
+    </div>
+    <div class="result" style="text-align:center;margin-top:1.5rem;font-size:1.3rem;font-weight:bold;display:none"></div>
+  `;
 }
 
 // === INITIALISATION ===
