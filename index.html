@@ -2154,6 +2154,30 @@ document.addEventListener('DOMContentLoaded', () => {
       if (resultDiv) resultDiv.textContent = '';
     });
   });
+
+  // === NOUVEAUX TYPES D'EXERCICES ===
+// Cette section ajoute les calculs, jeopardy et textes à trous
+
+// Données pour chaque module
+const exerciseData = {
+  calculs: {
+    module1: [
+      {q: "Une entreprise a un actif total de 500 000€ et un passif de 300 000€. Calculez ses capitaux propres.", answer: "200000", unit: "€"},
+      {q: "Si le chiffre d'affaires est de 150 000€ et les charges de 90 000€, quel est le résultat net?", answer: "60000", unit: "€"}
+    ]
+  },
+  jeopardy: {
+    module1: [
+      {category: "Comptabilité", value: 100, q: "Quelle classe du PCG contient les immobilisations?", a: "Classe 2"},
+      {category: "Comptabilité", value: 200, q: "Quel document présente la situation financière à un instant T?", a: "Le bilan"}
+    ]
+  },
+  texteTrous: {
+    module1: [
+      {text: "Le [bilan] présente la situation financière d'une entreprise à une [date] donnée. Il comprend l'[actif] et le [passif].", blanks: ["bilan", "date", "actif", "passif"]}
+    ]
+  }
+};
 });
 
     </script>
