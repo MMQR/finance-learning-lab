@@ -1978,3 +1978,38 @@
                   <input type="radio" name="m4q4" />
                   C. Les stocks doivent être financés uniquement par des capitaux propres
                 </label>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Q4 continuation (option D) -->
+        <article class="question-card">
+          <ul class="options-list">
+            <li>
+              <label>
+                <input type="radio" name="m4q4" />
+                D. Les immobilisations nécessitent un financement court-terme et rotatif
+              </label>
+            </li>
+          </ul>
+        </article>
+
+        </div>
+
+        <div class="module-actions">
+          <button class="back-btn">← Retour à l'accueil</button>
+          <button class="check-btn">Vérifier les réponses</button>
+          <button class="reset-btn">Réinitialiser</button>
+        </div>
+
+        <p class="result"></p>
+      </section>
+
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded",()=>{const home=document.getElementById("home");const modules=["module1","module2","module3","module4"].map(id=>document.getElementById(id));document.querySelectorAll(".module-card").forEach(card=>{card.addEventListener("click",()=>{const target=card.dataset.target;home.style.display="none";modules.forEach(m=>m.style.display="none");document.getElementById(target).style.display="block"})});document.querySelectorAll(".back-btn").forEach(btn=>{btn.addEventListener("click",()=>{modules.forEach(m=>m.style.display="none");home.style.display="block"})});document.querySelectorAll(".check-btn").forEach(btn=>{btn.addEventListener("click",()=>{const module=btn.closest("section");const radios=module.querySelectorAll('input[type="radio"]');let score=0;radios.forEach(r=>{if(r.checked){localStorage.setItem(r.name,r.value);const correct=r.value==="a";r.parentElement.style.color=correct?"green":"red";if(correct)score++}});const res=module.querySelector(".result");if(res)res.textContent="Score : "+score})});document.querySelectorAll(".reset-btn").forEach(btn=>{btn.addEventListener("click",()=>{const module=btn.closest("section");module.querySelectorAll('input[type="radio"]').forEach(r=>{r.checked=false;localStorage.removeItem(r.name);r.parentElement.style.color=""});const res=module.querySelector(".result");if(res)res.textContent=""})});modules.forEach(m=>{const radios=m.querySelectorAll('input[type="radio"]');radios.forEach(r=>{const saved=localStorage.getItem(r.name);if(saved===r.value)r.checked=true})})});
+    </script>
+
+  </body>
+</html>
