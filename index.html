@@ -1,2186 +1,570 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>FINANCE 4ALL™ LEARNING LAB</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    :root {
-      --bg-dark: #050510;
-      --panel-dark: rgba(10, 10, 15, 0.95);
-      --cyan: #00f3ff;
-      --magenta: #ff00c3;
-      --pink: #ff006e;
-      --violet: #a855f7;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --border-glow: rgba(0, 243, 255, 0.35);
-      --radius-xl: 18px;
-      --shadow-neon: 0 0 18px rgba(0, 243, 255, 0.45);
-      --shadow-magenta: 0 0 18px rgba(255, 0, 195, 0.45);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance 4All Learning Lab | Maîtrise Financière Futuriste</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables et Reset */
+        :root {
+            --color-bg: #121217;       /* Fond très sombre */
+            --color-text: #E0E0FF;     /* Texte clair */
+            --color-accent: #00FFC0;   /* Accent Néon Vert/Cyan */
+            --color-shadow: rgba(0, 255, 192, 0.5); /* Ombre Néon */
+            --color-error: #FF416C;    /* Feedback Erreur */
+            --color-success: #00FFC0;  /* Feedback Succès */
+            --color-card-bg: #1e1e2d;  /* Fond de carte légèrement plus clair */
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      min-height: 100vh;
-      color: var(--text-main);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(0, 243, 255, 0.18), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(255, 0, 110, 0.18), transparent 60%),
-        radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.14), transparent 55%),
-        var(--bg-dark);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 32px 16px;
-    }
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+            padding: 20px;
+        }
 
-    .app-shell {
-      width: 100%;
-      max-width: 1080px;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
-      border-radius: 24px;
-      padding: 24px 24px 32px 24px;
-      box-shadow:
-        0 0 0 1px rgba(148, 163, 184, 0.2),
-        0 24px 60px rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(18px);
-      position: relative;
-      overflow: hidden;
-    }
+        /* 3. WCAG 2.2 : Focus Visuel et Contraste */
+        :focus-visible {
+            outline: 4px solid var(--color-accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
 
-    .app-shell::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: conic-gradient(
-        from 180deg,
-        rgba(0, 243, 255, 0.25),
-        rgba(255, 0, 195, 0.2),
-        rgba(168, 85, 247, 0.25),
-        rgba(0, 243, 255, 0.25)
-      );
-      opacity: 0.35;
-      filter: blur(26px);
-      z-index: -1;
-    }
+        /* Header (6. Design Futuriste) */
+        .header-futuristic {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(30, 30, 45, 0.9);
+            border-bottom: 2px solid var(--color-accent);
+            box-shadow: 0 0 15px var(--color-shadow);
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
 
-    header.app-header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            color: var(--color-accent);
+            text-shadow: 0 0 8px var(--color-shadow);
+        }
 
-    header .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: radial-gradient(circle at 0 0, rgba(0, 243, 255, 0.2), transparent 60%);
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
+        /* Navigation */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
 
-    header .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--cyan);
-      box-shadow: 0 0 10px rgba(0, 243, 255, 0.8);
-    }
+        .nav-link {
+            text-decoration: none;
+            color: var(--color-text);
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
 
-    h1 {
-      font-size: clamp(2rem, 3vw, 2.6rem);
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      color: var(--cyan);
-      text-shadow:
-        0 0 8px rgba(0, 243, 255, 0.9),
-        0 0 20px rgba(0, 180, 255, 0.9);
-    }
+        .nav-link:hover, .nav-link.current {
+            color: var(--color-bg);
+            background-color: var(--color-accent);
+            box-shadow: 0 0 10px var(--color-shadow);
+        }
 
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin: 0 auto;
-    }
+        /* 4. Gamification UX : User Stats */
+        .user-stats {
+            display: flex;
+            gap: 25px;
+            padding: 10px 15px;
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-accent);
+            border-radius: 5px;
+        }
 
-    main {
-      margin-top: 12px;
-    }
+        .stat-item {
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* Main Content */
+        #app-container {
+            flex-grow: 1;
+            padding: 20px 0;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    /* HOME / LANDING */
+        .module-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--color-accent);
+            margin-bottom: 30px;
+        }
 
-    #home {
-      background: var(--panel-dark);
-      border-radius: var(--radius-xl);
-      padding: 20px 18px 22px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow:
-        0 16px 40px rgba(0, 0, 0, 0.9),
-        0 0 18px rgba(15, 23, 42, 0.9);
-      position: relative;
-      overflow: hidden;
-    }
+        /* 4. Gamification : Progress Bar */
+        .progress-area {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .progress-bar-container {
+            height: 15px;
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--color-accent);
+            margin-top: 5px;
+        }
 
-    #home::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(0, 243, 255, 0.25), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(255, 0, 110, 0.22), transparent 55%);
-      opacity: 0.3;
-      pointer-events: none;
-    }
+        /* 2. Animations CSS Performantes (GPU-Accelerated) */
+        .progress-fill {
+            height: 100%;
+            background-color: var(--color-success);
+            /* Utiliser transform: scaleX pour animer la largeur */
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Mouvement fluide */
+        }
 
-    #home-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
+        /* Quiz Card */
+        .quiz-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
 
-    #home-header-left h2 {
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--magenta);
-      text-shadow:
-        0 0 8px rgba(255, 0, 195, 0.9),
-        0 0 18px rgba(255, 0, 195, 0.8);
-      margin-bottom: 4px;
-    }
+        .question-number {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--color-accent);
+            margin-bottom: 15px;
+            text-align: right;
+        }
 
-    #home-header-left p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      max-width: 380px;
-    }
+        .question-text {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
 
-    .streak-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(34, 197, 94, 0.6);
-      color: #bbf7d0;
-      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.24), transparent 65%);
-      box-shadow: 0 0 16px rgba(34, 197, 94, 0.5);
-      margin-top: 4px;
-    }
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-    .streak-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 1);
-    }
+        /* Boutons d'Option */
+        .option-btn {
+            background-color: #333;
+            color: var(--color-text);
+            border: 2px solid #555;
+            padding: 15px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            /* 2. Animations GPU: Utiliser transform */
+            transform: scale(1); 
+        }
 
-    #home-header-right {
-      text-align: right;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--color-accent);
+            background-color: #3a3a4c;
+            transform: scale(1.01);
+            box-shadow: 0 0 10px rgba(0, 255, 192, 0.3);
+        }
 
-    .xp-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(129, 140, 248, 0.6);
-      background: radial-gradient(circle at 100% 0, rgba(129, 140, 248, 0.35), transparent 60%);
-      margin-bottom: 6px;
-    }
+        .option-label {
+            font-family: 'Orbitron', sans-serif;
+            display: inline-block;
+            min-width: 20px;
+            text-align: center;
+            background-color: var(--color-bg);
+            padding: 5px;
+            border-radius: 4px;
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
 
-    .xp-bar {
-      width: 160px;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      overflow: hidden;
-      margin-left: auto;
-      box-shadow: 0 0 12px rgba(129, 140, 248, 0.4);
-    }
+        /* 8. Feedback Visuel Immédiat (Point 2: Animations) */
+        .option-btn.selected {
+            border-color: var(--color-accent);
+        }
 
-    .xp-bar-fill {
-      width: 45%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--cyan), var(--violet));
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
-    }
+        .option-btn.correct {
+            background-color: rgba(0, 255, 192, 0.15);
+            border-color: var(--color-success);
+            transform: translate3d(0, -2px, 0); /* Force GPU */
+        }
 
-    /* GRID MODULES */
+        .option-btn.incorrect {
+            background-color: rgba(255, 65, 108, 0.15);
+            border-color: var(--color-error);
+            animation: shake 0.3s;
+        }
 
-    .modules-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      position: relative;
-      z-index: 1;
-    }
+        /* Keyframes pour l'animation 'incorrect' */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
 
-    .module-card {
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(10, 10, 15, 0.95));
-      border-radius: var(--radius-xl);
-      padding: 14px 14px 16px 14px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      box-shadow:
-        0 0 0 1px rgba(15, 23, 42, 0.95),
-        0 14px 30px rgba(0, 0, 0, 0.85);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease,
-        background 0.18s ease;
-    }
+        /* Boutons d'action (Valider/Suivant) */
+        .action-btn {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s;
+            font-family: 'Orbitron', sans-serif;
+            width: 100%;
+        }
 
-    .module-card::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      background:
-        radial-gradient(circle at 0 0, rgba(0, 243, 255, 0.6), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(255, 0, 195, 0.45), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.18s ease;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
+        .submit-btn {
+            background-color: var(--color-accent);
+            color: var(--color-bg);
+        }
 
-    .module-card:hover {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow:
-        0 0 18px rgba(0, 243, 255, 0.38),
-        0 18px 40px rgba(0, 0, 0, 0.9);
-      border-color: rgba(0, 243, 255, 0.7);
-    }
+        .next-btn {
+            background-color: #5A5A77; /* Couleur secondaire */
+            color: var(--color-text);
+        }
 
-    .module-card:hover::before {
-      opacity: 0.55;
-    }
+        .action-btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
 
-    .module-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
+        .action-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
 
-    .module-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--cyan);
-      text-shadow: 0 0 8px rgba(0, 243, 255, 0.7);
-    }
+        /* Feedback Box */
+        .feedback-box {
+            min-height: 40px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #333;
+            color: var(--color-text);
+            font-weight: bold;
+            display: none; /* Caché par défaut via JS */
+        }
+        
+        /* Footer */
+        .footer-futuristic {
+            margin-top: 40px;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #888;
+            border-top: 1px solid #333;
+        }
 
-    .module-desc {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
+        /* Écran de Complétion */
+        .completion-screen {
+            text-align: center;
+            padding: 50px;
+            background-color: var(--color-card-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--color-shadow);
+        }
 
-    .module-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .pill-questions {
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .pill-difficulty {
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 243, 255, 0.7);
-      color: var(--cyan);
-      background: rgba(8, 47, 73, 0.9);
-      box-shadow: 0 0 12px rgba(8, 47, 73, 0.9);
-    }
-
-    /* MODULE SECTIONS */
-
-    .module-section {
-      display: none;
-      background: var(--panel-dark);
-      border-radius: var(--radius-xl);
-      padding: 20px 18px 24px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      box-shadow:
-        0 18px 46px rgba(0, 0, 0, 0.95),
-        0 0 18px rgba(15, 23, 42, 0.95);
-      position: relative;
-    }
-
-    .module-section::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      background:
-        radial-gradient(circle at 0 0, rgba(0, 243, 255, 0.14), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(255, 0, 110, 0.18), transparent 60%);
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    .module-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .module-header-left h2 {
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--magenta);
-      text-shadow:
-        0 0 8px rgba(255, 0, 195, 0.9),
-        0 0 22px rgba(255, 0, 195, 0.9);
-      margin-bottom: 4px;
-    }
-
-    .module-header-left p {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      max-width: 420px;
-    }
-
-    .module-header-right {
-      text-align: right;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .tag-topic {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(96, 165, 250, 0.8);
-      background: radial-gradient(circle at 100% 0, rgba(96, 165, 250, 0.4), transparent 60%);
-      margin-bottom: 6px;
-    }
-
-    .tag-topic-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(96, 165, 250, 1);
-      box-shadow: 0 0 12px rgba(96, 165, 250, 1);
-    }
-
-    .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      color: var(--text-main);
-      background: radial-gradient(circle at 0 0, rgba(0, 243, 255, 0.08), transparent 60%);
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition:
-        background 0.18s ease,
-        border-color 0.18s ease,
-        transform 0.12s ease,
-        box-shadow 0.12s ease;
-    }
-
-    .btn-back:hover {
-      background: radial-gradient(circle at 0 0, rgba(0, 243, 255, 0.18), transparent 60%);
-      border-color: rgba(0, 243, 255, 0.9);
-      box-shadow: 0 0 14px rgba(0, 243, 255, 0.6);
-      transform: translateY(-1px);
-    }
-
-    .btn-back span.icon {
-      font-size: 1rem;
-    }
-
-    .questions-wrapper {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 4px;
-    }
-
-    .question-card {
-      background: radial-gradient(circle at 0 0, rgba(0, 243, 255, 0.08), transparent 65%);
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      padding: 10px 12px 12px 12px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.75);
-    }
-
-    .question-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: baseline;
-      margin-bottom: 6px;
-    }
-
-    .question-header h3 {
-      font-size: 0.9rem;
-      color: var(--cyan);
-      text-shadow: 0 0 6px rgba(0, 243, 255, 0.7);
-    }
-
-    .question-topic {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.75);
-      background: rgba(15, 23, 42, 0.95);
-    }
-
-    .question-body {
-      font-size: 0.85rem;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    .options-list {
-      list-style: none;
-      display: grid;
-      gap: 3px;
-      margin-top: 4px;
-    }
-
-    .options-list li {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .options-list label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-
-    .options-list input[type="radio"] {
-      accent-color: var(--cyan);
-    }
-
-    @media (max-width: 720px) {
-      .app-shell {
-        padding: 18px 14px 24px 14px;
-      }
-
-      #home-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .module-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .module-header-right,
-      #home-header-right {
-        text-align: left;
-      }
-
-      .xp-bar {
-        margin-left: 0;
-      }
-    }
-  </style>
+        .completion-screen h3 {
+            color: var(--color-accent);
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+        }
+        
+        /* Media Queries pour la Responsivité */
+        @media (max-width: 600px) {
+            .header-futuristic {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .user-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="app-header">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        <span>FINANCE 4ALL™ LEARNING LAB · Mode sombre néon</span>
-      </div>
-      <h1>FINANCE 4ALL™ LEARNING LAB</h1>
-      <p class="subtitle">
-        Maîtrise les fondamentaux de l’analyse financière, des ratios et de la valorisation grâce à
-        des QCM ciblés, conçus pour les managers, entrepreneurs et non-financiers.
-      </p>
+
+    <header role="banner" class="header-futuristic">
+        <h1 class="logo">Finance 4All Learning Lab <span aria-hidden="true">🚀</span></h1>
+        
+        <div class="user-stats" role="status" aria-live="polite">
+            <span class="stat-item" id="user-score" aria-label="Score actuel">💰 0 Points</span>
+            <span class="stat-item" id="user-level" aria-label="Niveau actuel">Level I - Novice</span>
+        </div>
+
+        <nav role="navigation" aria-label="Navigation principale de l'application">
+            <ul class="nav-links">
+                <li><a href="#accueil" class="nav-link current" aria-current="page">Accueil</a></li>
+                <li><a href="#modules" class="nav-link">Modules</a></li>
+                <li><a href="#profil" class="nav-link">Profil</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-      <!-- HOME / LANDING -->
-      <section id="home">
-        <div id="home-header">
-          <div id="home-header-left">
-            <h2>Parcours Modulaire</h2>
-            <p>
-              Choisis un module pour lancer une série de 10 questions et t’entraîner sur les
-              notions clés de l’analyse financière.
-            </p>
-            <div class="streak-tag">
-              <span class="streak-dot"></span>
-              <span>Objectif du jour : 4×10 QCM</span>
+    <main id="app-container">
+
+        <section id="quiz-module" class="module-view active" aria-labelledby="module-title">
+            <h2 id="module-title" class="module-title">Module 1 : Les Fondamentaux du Budget</h2>
+
+            <div class="progress-area">
+                <p class="progress-label">Progression du Module:</p>
+                <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-fill" style="transform: scaleX(0);"></div>
+                </div>
             </div>
-          </div>
-          <div id="home-header-right">
-            <div class="xp-pill">
-              <span>Progression Finance</span>
-              <strong>Intermédiaire</strong>
-            </div>
-            <div class="xp-bar">
-              <div class="xp-bar-fill"></div>
-            </div>
-          </div>
-        </div>
 
-        <div class="modules-grid">
-          <article class="module-card" data-target="module1">
-            <div class="module-label">Module 1</div>
-            <div class="module-title">Fondamentaux comptables</div>
-            <p class="module-desc">
-              États financiers, plan comptable, IFRS vs PCG, distinction actif/passif.
-            </p>
-            <div class="module-meta">
-              <span class="pill-questions">10 QCM</span>
-              <span class="pill-difficulty">Niveau : Base</span>
-            </div>
-          </article>
+            <article class="quiz-card" role="region" aria-live="polite">
+                <p class="question-number" aria-hidden="true">Question <span id="current-q-num">0</span>/<span id="total-q-num">0</span></p>
+                <h3 id="current-question" class="question-text">Chargement...</h3>
+                
+                <div id="options-container" class="options-container" role="radiogroup" aria-labelledby="current-question">
+                    </div>
 
-          <article class="module-card" data-target="module2">
-            <div class="module-label">Module 2</div>
-            <div class="module-title">Ratios financiers</div>
-            <p class="module-desc">
-              Liquidité, rentabilité, endettement et BFR pour piloter la performance.
-            </p>
-            <div class="module-meta">
-              <span class="pill-questions">10 QCM</span>
-              <span class="pill-difficulty">Niveau : Intermédiaire</span>
-            </div>
-          </article>
+                <div id="feedback-message" class="feedback-box" aria-live="assertive" hidden></div>
+                
+                <button id="submit-btn" class="action-btn submit-btn" disabled>
+                    Valider la Réponse
+                </button>
+                <button id="next-btn" class="action-btn next-btn" hidden>
+                    Question Suivante <span aria-hidden="true">→</span>
+                </button>
+            </article>
 
-          <article class="module-card" data-target="module3">
-            <div class="module-label">Module 3</div>
-            <div class="module-title">Valorisation d’entreprise</div>
-            <p class="module-desc">
-              DCF, multiples boursiers, WACC et valeur comptable expliqués.
-            </p>
-            <div class="module-meta">
-              <span class="pill-questions">10 QCM</span>
-              <span class="pill-difficulty">Niveau : Avancé</span>
-            </div>
-          </article>
+            <article id="completion-screen" class="completion-screen" role="dialog" aria-modal="true" hidden>
+                <h3>Module Terminé ! 🎉</h3>
+                <p>Votre score final : <span id="final-score"></span> points.</p>
+                <p>Badge débloqué : **Maître du Budget**.</p>
+                <button class="action-btn">Passer au Module Suivant</button>
+            </article>
+        </section>
 
-          <article class="module-card" data-target="module4">
-            <div class="module-label">Module 4</div>
-            <div class="module-title">Cas pratiques</div>
-            <p class="module-desc">
-              Application concrète sur les décisions d’investissement et de financement.
-            </p>
-            <div class="module-meta">
-              <span class="pill-questions">10 QCM</span>
-              <span class="pill-difficulty">Niveau : Mixte</span>
-            </div>
-          </article>
-        </div>
-      </section>
+    </main>
 
-      <!-- MODULE 1 -->
-      <section id="module1" class="module-section">
-        <div class="module-header">
-          <div class="module-header-left">
-            <h2>Module 1 · Fondamentaux</h2>
-            <p>
-              Plan comptable (classes 1 à 7), Bilan et Compte de résultat, différences IFRS / PCG
-              et logique Actif / Passif.
-            </p>
-          </div>
-          <div class="module-header-right">
-            <div class="tag-topic">
-              <span class="tag-topic-dot"></span>
-              <span>Comptabilité générale</span>
-            </div>
-            <button class="btn-back" data-back>
-              <span class="icon">←</span>
-              <span>Retour à l’accueil</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="questions-wrapper">
-          <!-- Q1 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 1</h3>
-              <span class="question-topic">Plan comptable · Classes</span>
-            </div>
-            <p class="question-body">
-              Dans le Plan Comptable Général (PCG), quelle classe regroupe principalement les
-              comptes d’immobilisations ?
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q1" />
-                  A. Classe 1
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q1" />
-                  B. Classe 2
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q1" />
-                  C. Classe 3
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q1" />
-                  D. Classe 6
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q2 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 2</h3>
-              <span class="question-topic">Plan comptable · Classes</span>
-            </div>
-            <p class="question-body">
-              Quelle classe regroupe les comptes de charges dans le PCG français ?
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q2" />
-                  A. Classe 4
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q2" />
-                  B. Classe 5
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q2" />
-                  C. Classe 6
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q2" />
-                  D. Classe 7
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q3 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 3</h3>
-              <span class="question-topic">Plan comptable · Classes</span>
-            </div>
-            <p class="question-body">
-              Les comptes de produits (chiffre d’affaires, subventions d’exploitation, etc.)
-              appartiennent à :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q3" />
-                  A. La classe 3
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q3" />
-                  B. La classe 5
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q3" />
-                  C. La classe 6
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q3" />
-                  D. La classe 7
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q4 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 4</h3>
-              <span class="question-topic">Bilan · Structure</span>
-            </div>
-            <p class="question-body">
-              Le bilan présente la situation d’une entreprise :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q4" />
-                  A. Sur une période donnée, du 1er janvier au 31 décembre
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q4" />
-                  B. À une date donnée, généralement la fin d’exercice
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q4" />
-                  C. Sur les trois derniers exercices consécutifs
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q4" />
-                  D. Excluant les immobilisations incorporelles
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q5 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 5</h3>
-              <span class="question-topic">Compte de résultat</span>
-            </div>
-            <p class="question-body">
-              Le compte de résultat mesure principalement :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q5" />
-                  A. Le patrimoine à la date de clôture
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q5" />
-                  B. La performance (résultat) sur une période donnée
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q5" />
-                  C. Les flux de trésorerie futurs attendus
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q5" />
-                  D. Les seules opérations d’investissement
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q6 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 6</h3>
-              <span class="question-topic">IFRS vs PCG</span>
-            </div>
-            <p class="question-body">
-              Parmi les affirmations suivantes, laquelle caractérise le mieux les normes IFRS
-              par rapport au PCG français ?
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q6" />
-                  A. Les IFRS sont purement fiscales, le PCG est économique
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q6" />
-                  B. Les IFRS sont principalement orientées investisseurs et marchés financiers
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q6" />
-                  C. Le PCG s’applique uniquement aux groupes cotés
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q6" />
-                  D. Les IFRS interdisent toute évaluation à la juste valeur
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q7 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 7</h3>
-              <span class="question-topic">IFRS vs PCG</span>
-            </div>
-            <p class="question-body">
-              En IFRS, la présentation des états financiers se distingue notamment par :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q7" />
-                  A. L’absence de tableau des flux de trésorerie
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q7" />
-                  B. L’obligation de présenter un tableau des flux de trésorerie consolidé
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q7" />
-                  C. La suppression du compte de résultat
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q7" />
-                  D. Un plan de comptes imposé identique au PCG
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q8 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 8</h3>
-              <span class="question-topic">Actif / Passif</span>
-            </div>
-            <p class="question-body">
-              Laquelle de ces propositions décrit correctement un actif au sens comptable ?
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q8" />
-                  A. Une ressource contrôlée qui générera des avantages économiques futurs
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q8" />
-                  B. Une obligation actuelle de l’entreprise envers un tiers
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q8" />
-                  C. Un flux de trésorerie futur certain
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q8" />
-                  D. Un engagement moral non quantifiable
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q9 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 9</h3>
-              <span class="question-topic">Actif / Passif</span>
-            </div>
-            <p class="question-body">
-              Le passif d’une entreprise regroupe principalement :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q9" />
-                  A. Les immobilisations corporelles et incorporelles
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q9" />
-                  B. Les stocks et créances clients
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q9" />
-                  C. Les capitaux propres et les dettes envers les tiers
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q9" />
-                  D. Les amortissements et provisions d’actif
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q10 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 10</h3>
-              <span class="question-topic">Bilan · Vérification</span>
-            </div>
-            <p class="question-body">
-              Quelle égalité fondamentale doit toujours être vérifiée dans un bilan comptable ?
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m1q10" />
-                  A. Actif + Charges = Passif + Produits
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q10" />
-                  B. Actif = Passif
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q10" />
-                  C. Actif – Passif = 0 uniquement si l’entreprise est rentable
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m1q10" />
-                  D. Charges = Produits
-                </label>
-              </li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <!-- MODULE 2 -->
-      <section id="module2" class="module-section">
-        <div class="module-header">
-          <div class="module-header-left">
-            <h2>Module 2 · Ratios</h2>
-            <p>
-              Ratios de liquidité (current et quick ratio), rentabilité (ROE, ROA, marges),
-              endettement (gearing) et Besoin en Fonds de Roulement.
-            </p>
-          </div>
-          <div class="module-header-right">
-            <div class="tag-topic">
-              <span class="tag-topic-dot"></span>
-              <span>Analyse financière</span>
-            </div>
-            <button class="btn-back" data-back>
-              <span class="icon">←</span>
-              <span>Retour à l’accueil</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="questions-wrapper">
-          <!-- Q1 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 1</h3>
-              <span class="question-topic">Liquidité · Current ratio</span>
-            </div>
-            <p class="question-body">
-              Le current ratio (ratio de liquidité générale) se calcule généralement comme :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q1" />
-                  A. Actifs courants / Dettes à long terme
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q1" />
-                  B. Actifs courants / Dettes courantes
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q1" />
-                  C. Trésorerie / Dettes courantes
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q1" />
-                  D. Capitaux propres / Total bilan
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q2 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 2</h3>
-              <span class="question-topic">Liquidité · Quick ratio</span>
-            </div>
-            <p class="question-body">
-              Le quick ratio (liquidité immédiate) exclut généralement des actifs courants :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q2" />
-                  A. La trésorerie
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q2" />
-                  B. Les créances clients
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q2" />
-                  C. Les stocks
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q2" />
-                  D. Les placements à court terme
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q3 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 3</h3>
-              <span class="question-topic">Liquidité · Interprétation</span>
-            </div>
-            <p class="question-body">
-              Un current ratio significativement inférieur à 1 traduit généralement :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q3" />
-                  A. Une trésorerie excédentaire importante
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q3" />
-                  B. Un risque de tension de liquidité à court terme
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q3" />
-                  C. Une forte rentabilité des capitaux propres
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q3" />
-                  D. Un endettement net négatif
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q4 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 4</h3>
-              <span class="question-topic">Rentabilité · ROE</span>
-            </div>
-            <p class="question-body">
-              Le ROE (Return on Equity) mesure la rentabilité :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q4" />
-                  A. Du total des actifs
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q4" />
-                  B. Des capitaux propres
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q4" />
-                  C. Des dettes financières
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q4" />
-                  D. Du chiffre d’affaires
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q5 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 5</h3>
-              <span class="question-topic">Rentabilité · ROA</span>
-            </div>
-            <p class="question-body">
-              Le ROA (Return on Assets) se calcule classiquement comme :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q5" />
-                  A. Résultat net / Capitaux propres
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q5" />
-                  B. Résultat net / Total actif
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q5" />
-                  C. Résultat d’exploitation / Chiffre d’affaires
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q5" />
-                  D. EBITDA / Dettes financières nettes
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q6 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 6</h3>
-              <span class="question-topic">Rentabilité · Marges</span>
-            </div>
-            <p class="question-body">
-              La marge nette s’exprime généralement comme :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q6" />
-                  A. Résultat net / Chiffre d’affaires
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q6" />
-                  B. Résultat d’exploitation / Total actif
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q6" />
-                  C. Chiffre d’affaires / Total actif
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q6" />
-                  D. Résultat net / Capitaux propres
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q7 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 7</h3>
-              <span class="question-topic">Endettement · Gearing</span>
-            </div>
-            <p class="question-body">
-              Le ratio de gearing mesure en général le rapport entre :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q7" />
-                  A. Dettes financières nettes et capitaux propres
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q7" />
-                  B. Dettes fournisseurs et chiffre d’affaires
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q7" />
-                  C. Capitaux propres et total actif
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q7" />
-                  D. Stocks et dettes financières nettes
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q8 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 8</h3>
-              <span class="question-topic">Endettement · Interprétation</span>
-            </div>
-            <p class="question-body">
-              Un gearing très élevé indique généralement :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q8" />
-                  A. Une entreprise très faiblement endettée
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q8" />
-                  B. Une dépendance marquée vis-à-vis de la dette
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q8" />
-                  C. Une rentabilité nette nulle
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q8" />
-                  D. Une trésorerie nette très positive
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q9 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 9</h3>
-              <span class="question-topic">BFR · Définition</span>
-            </div>
-            <p class="question-body">
-              Le Besoin en Fonds de Roulement (BFR) correspond généralement à :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q9" />
-                  A. Actifs courants – Dettes financières nettes
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q9" />
-                  B. Stocks + Créances clients – Dettes fournisseurs
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q9" />
-                  C. Capitaux propres – Immobilisations nettes
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q9" />
-                  D. Trésorerie active – Trésorerie passive
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q10 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 10</h3>
-              <span class="question-topic">BFR · Interprétation</span>
-            </div>
-            <p class="question-body">
-              Un BFR structurellement positif signifie en général que :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m2q10" />
-                  A. L’entreprise est payée par ses clients avant de régler ses fournisseurs
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q10" />
-                  B. L’entreprise doit financer une partie de son cycle d’exploitation
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q10" />
-                  C. Le besoin de trésorerie lié au cycle d’exploitation est nul
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m2q10" />
-                  D. Les stocks et créances clients sont négligeables
-                </label>
-              </li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <!-- MODULE 3 -->
-      <section id="module3" class="module-section">
-        <div class="module-header">
-          <div class="module-header-left">
-            <h2>Module 3 · Valorisation</h2>
-            <p>
-              Méthode des flux de trésorerie actualisés (DCF), valorisation par multiples (PER,
-              EV/EBITDA), calcul du WACC et notion de valeur comptable.
-            </p>
-          </div>
-          <div class="module-header-right">
-            <div class="tag-topic">
-              <span class="tag-topic-dot"></span>
-              <span>Finance d’entreprise</span>
-            </div>
-            <button class="btn-back" data-back>
-              <span class="icon">←</span>
-              <span>Retour à l’accueil</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="questions-wrapper">
-          <!-- Q1 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 1</h3>
-              <span class="question-topic">DCF · Principe</span>
-            </div>
-            <p class="question-body">
-              La méthode DCF (Discounted Cash Flows) consiste principalement à :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q1" />
-                  A. Actualiser les flux de trésorerie futurs attendus de l’entreprise
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q1" />
-                  B. Actualiser les dividendes historiques versés
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q1" />
-                  C. Actualiser uniquement le résultat net
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q1" />
-                  D. Actualiser le chiffre d’affaires sur les cinq derniers exercices
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q2 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 2</h3>
-              <span class="question-topic">DCF · Flux utilisés</span>
-            </div>
-            <p class="question-body">
-              Dans une valorisation DCF d’entreprise, on utilise le plus souvent :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q2" />
-                  A. Les flux de trésorerie disponibles pour les actionnaires uniquement
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q2" />
-                  B. Les flux de trésorerie disponibles pour l’ensemble des apporteurs de capitaux
-                  (free cash flows to the firm)
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q2" />
-                  C. Les flux de trésorerie avant impôts
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q2" />
-                  D. Les amortissements non retraités
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q3 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 3</h3>
-              <span class="question-topic">Multiples · PER</span>
-            </div>
-            <p class="question-body">
-              Le PER (Price Earnings Ratio) se calcule, pour une action, comme :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q3" />
-                  A. Prix de l’action / Chiffre d’affaires par action
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q3" />
-                  B. Prix de l’action / Résultat net par action
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q3" />
-                  C. Résultat net par action / Prix de l’action
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q3" />
-                  D. Capitalisation boursière / Trésorerie nette
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q4 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 4</h3>
-              <span class="question-topic">Multiples · EV/EBITDA</span>
-            </div>
-            <p class="question-body">
-              Dans le multiple EV/EBITDA, EV (Enterprise Value) correspond généralement à :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q4" />
-                  A. Capitalisation boursière – Trésorerie
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q4" />
-                  B. Capitalisation boursière + Dettes financières nettes
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q4" />
-                  C. Résultat net + Amortissements
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q4" />
-                  D. Actif immobilisé net – Dettes fournisseurs
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q5 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 5</h3>
-              <span class="question-topic">Multiples · Interprétation</span>
-            </div>
-            <p class="question-body">
-              Un multiple EV/EBITDA significativement plus élevé que celui de sociétés comparables
-              peut indiquer :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q5" />
-                  A. Que l’entreprise est sous-valorisée par le marché
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q5" />
-                  B. Que le marché anticipe une croissance ou une qualité supérieures
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q5" />
-                  C. Que l’entreprise n’a pas de dettes financières
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q5" />
-                  D. Que l’EBITDA est nécessairement négatif
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q6 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 6</h3>
-              <span class="question-topic">WACC · Définition</span>
-            </div>
-            <p class="question-body">
-              Le WACC (Weighted Average Cost of Capital) représente :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q6" />
-                  A. Le coût de la dette bancaire uniquement
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q6" />
-                  B. Le coût moyen pondéré des capitaux propres et de la dette
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q6" />
-                  C. Le taux de rendement exigé par les actionnaires uniquement
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q6" />
-                  D. Le taux sans risque de marché
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q7 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 7</h3>
-              <span class="question-topic">WACC · Effet fiscal</span>
-            </div>
-            <p class="question-body">
-              Dans le calcul du WACC, le coût de la dette est généralement pris :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q7" />
-                  A. Avant impôt, sans ajustement
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q7" />
-                  B. Après impôt, en tenant compte de la déductibilité des charges d’intérêt
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q7" />
-                  C. Au même niveau que le coût des capitaux propres
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q7" />
-                  D. Uniquement sur la base du taux sans risque
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q8 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 8</h3>
-              <span class="question-topic">Valeur comptable</span>
-            </div>
-            <p class="question-body">
-              La valeur comptable des capitaux propres d’une entreprise correspond en général à :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q8" />
-                  A. Sa capitalisation boursière
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q8" />
-                  B. Total actif – Total des dettes
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q8" />
-                  C. Total actif immobilisé – Total actif circulant
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q8" />
-                  D. Chiffre d’affaires – Charges d’exploitation
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q9 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 9</h3>
-              <span class="question-topic">Valeur comptable vs marché</span>
-            </div>
-            <p class="question-body">
-              Un ratio Prix / Valeur comptable (P/BV) nettement supérieur à 1 peut refléter
-              notamment :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q9" />
-                  A. Une absence de goodwill
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q9" />
-                  B. Des attentes de croissance et/ou de rentabilité élevées de la part du marché
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q9" />
-                  C. Une valeur de marché inférieure à la valeur comptable
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q9" />
-                  D. Une situation de quasi-faillite
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q10 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 10</h3>
-              <span class="question-topic">Synthèse · Méthodes</span>
-            </div>
-            <p class="question-body">
-              Parmi les affirmations suivantes, laquelle décrit le mieux l’intérêt de combiner DCF
-              et valorisation par multiples ?
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m3q10" />
-                  A. Les deux méthodes donnent toujours exactement la même valeur
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q10" />
-                  B. Les multiples permettent de confronter la valorisation DCF au marché et à des
-                  comparables
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q10" />
-                  C. La méthode DCF n’utilise aucun taux d’actualisation
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m3q10" />
-                  D. Les multiples sont réservés aux entreprises non cotées
-                </label>
-              </li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <!-- MODULE 4 -->
-      <section id="module4" class="module-section">
-        <div class="module-header">
-          <div class="module-header-left">
-            <h2>Module 4 · Cas pratiques</h2>
-            <p>
-              Mise en situation : analyse d’investissement, diagnostic de structure financière et
-              décisions de financement (dette vs capitaux propres, levier).
-            </p>
-          </div>
-          <div class="module-header-right">
-            <div class="tag-topic">
-              <span class="tag-topic-dot"></span>
-              <span>Applications & scénarios</span>
-            </div>
-            <button class="btn-back" data-back>
-              <span class="icon">←</span>
-              <span>Retour à l’accueil</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="questions-wrapper">
-          <!-- Q1 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 1</h3>
-              <span class="question-topic">Analyse investissement · VAN</span>
-            </div>
-            <p class="question-body">
-              Pour évaluer un projet d’investissement, la VAN (Valeur Actuelle Nette) positive
-              indique que :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m4q1" />
-                  A. Le projet détruit de la valeur pour les actionnaires
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q1" />
-                  B. La valeur actuelle des flux futurs est supérieure au coût initial du projet
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q1" />
-                  C. Le taux d’actualisation est inférieur au taux sans risque
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q1" />
-                  D. Le projet n’a aucun impact sur la valeur de l’entreprise
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q2 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 2</h3>
-              <span class="question-topic">Analyse investissement · TRI</span>
-            </div>
-            <p class="question-body">
-              Le TRI (Taux de Rendement Interne) d’un projet est le taux qui rend :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m4q2" />
-                  A. La VAN du projet égale à zéro
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q2" />
-                  B. Le résultat net nul
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q2" />
-                  C. Le BFR structurel égal à zéro
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q2" />
-                  D. Le WACC égal au taux sans risque
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q3 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 3</h3>
-              <span class="question-topic">Structure financière</span>
-            </div>
-            <p class="question-body">
-              Une structure financière jugée « équilibrée » se caractérise souvent par :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m4q3" />
-                  A. Une part raisonnable de capitaux propres et une dette soutenable au regard des
-                  flux de trésorerie
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q3" />
-                  B. L’absence totale de dettes financières
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q3" />
-                  C. Un BFR toujours nul
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q3" />
-                  D. Un gearing infiniment élevé
-                </label>
-              </li>
-            </ul>
-          </article>
-
-          <!-- Q4 -->
-          <article class="question-card">
-            <div class="question-header">
-              <h3>Question 4</h3>
-              <span class="question-topic">Structure financière · Couverture</span>
-            </div>
-            <p class="question-body">
-              Le principe de financement « or long terme, or court terme » implique que :
-            </p>
-            <ul class="options-list">
-              <li>
-                <label>
-                  <input type="radio" name="m4q4" />
-                  A. Les immobilisations doivent être financées par des ressources à long terme
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q4" />
-                  B. Les immobilisations doivent être financées par le crédit fournisseur
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="m4q4" />
-                  C. Les stocks doivent être financés uniquement par des capitaux propres
-                </label>
-            </li>
-          </ul>
-        </article>
-
-        <!-- Q4 continuation (option D) -->
-        <article class="question-card">
-          <ul class="options-list">
-            <li>
-              <label>
-                <input type="radio" name="m4q4" />
-                D. Les immobilisations nécessitent un financement court-terme et rotatif
-              </label>
-            </li>
-          </ul>
-        </article>
-
-        </div>
-
-        <div class="module-actions">
-          <button class="back-btn">← Retour à l'accueil</button>
-          <button class="check-btn">Vérifier les réponses</button>
-          <button class="reset-btn">Réinitialiser</button>
-        </div>
-
-        <p class="result"></p>
-      </section>
-
-    </div>
+    <footer role="contentinfo" class="footer-futuristic">
+        <p>© 2025 Finance 4All Learning Lab. Code optimisé.</p>
+    </footer>
 
     <script>
-// === BANQUES DE QUESTIONS PAR MODULE ===
-const questionBanks = {
-  module1: [
-    {q: "Dans le Plan Comptable Général (PCG), quelle classe regroupe principalement les comptes d'immobilisations ?", options: ["Classe 1", "Classe 2", "Classe 3", "Classe 6"], answer: 1},
-    {q: "Quelle classe regroupe les comptes de charges dans le PCG français ?", options: ["Classe 4", "Classe 5", "Classe 6", "Classe 7"], answer: 2},
-    {q: "Les comptes de produits (chiffre d'affaires, subventions d'exploitation, etc.) appartiennent à :", options: ["La classe 3", "La classe 5", "La classe 6", "La classe 7"], answer: 3},
-    {q: "Le bilan présente la situation d'une entreprise :", options: ["Sur une période donnée", "À une date donnée", "Sur 3 exercices", "Sans immobilisations"], answer: 1},
-    {q: "Le compte de résultat mesure principalement :", options: ["Le patrimoine", "La performance sur une période", "Les flux futurs", "Les investissements"], answer: 1}
-  ],
-  module2: [
-    {q: "Le current ratio se calcule comme :", options: ["Actifs courants / Dettes LT", "Actifs courants / Dettes courantes", "Trésorerie / Dettes courantes", "CP / Total bilan"], answer: 1},
-    {q: "Le quick ratio exclut généralement :", options: ["La trésorerie", "Les créances", "Les stocks", "Les placements CT"], answer: 2},
-    {q: "Un current ratio < 1 traduit :", options: ["Trésorerie excédentaire", "Risque de liquidité", "Forte rentabilité", "Endettement négatif"], answer: 1},
-    {q: "Le ROE mesure la rentabilité :", options: ["Des actifs", "Des capitaux propres", "Des dettes", "Du CA"], answer: 1},
-    {q: "Le ROA se calcule comme :", options: ["RN / CP", "RN / Total actif", "REX / CA", "EBITDA / Dettes"], answer: 1}
-  ],
-  module3: [
-    {q: "La méthode DCF consiste à :", options: ["Actualiser dividendes passés", "Actualiser flux futurs", "Actualiser RN", "Actualiser CA"], answer: 1},
-    {q: "Dans une DCF, on utilise :", options: ["FCF actionnaires", "FCF to the firm", "Flux avant impôts", "Amortissements"], answer: 1},
-    {q: "Le PER se calcule comme :", options: ["Prix / CA par action", "Prix / RN par action", "RN / Prix", "Cap / Trésorerie"], answer: 1},
-    {q: "EV correspond à :", options: ["Cap - Trésorerie", "Cap + Dettes nettes", "RN + Amort", "Actif - Dettes"], answer: 1},
-    {q: "Le WACC représente :", options: ["Coût dette seule", "Coût moyen pondéré", "Coût CP seuls", "Taux sans risque"], answer: 1}
-  ],
-  module4: [
-    {q: "Une VAN positive indique :", options: ["Destruction valeur", "Création valeur", "Taux < sans risque", "Impact nul"], answer: 1},
-    {q: "Le TRI est le taux qui rend :", options: ["VAN = 0", "RN nul", "BFR = 0", "WACC = taux SR"], answer: 0},
-    {q: "Structure équilibrée = :", options: ["Zéro dette", "CP + dette soutenable", "BFR nul", "Gearing infini"], answer: 1},
-    {q: "Or long terme implique :", options: ["Immo financées LT", "Immo par crédit fournisseur", "Stocks par CP", "Immo par CT"], answer: 0},
-    {q: "BFR positif signifie :", options: ["Payé avant règlement", "Financement cycle", "Besoin nul", "Stocks nuls"], answer: 1}
-  ]
-};
+        // 7. Meilleure Gestion d'État pour les Quiz
+        const appState = {
+            score: 0,
+            currentQuestionIndex: 0,
+            isAnswered: false,
+            quizData: [
+                { 
+                    question: "Quelle est la règle d'or d'une bonne gestion budgétaire ?", 
+                    options: ["Épargner l'intégralité de son salaire.", "La règle 50/30/20 (Besoin/Envie/Épargne).", "Dépenser plus que ce que l'on gagne."],
+                    correctAnswerIndex: 1,
+                    points: 10
+                },
+                { 
+                    question: "Qu'est-ce que l'intérêt composé (Compound Interest) ?", 
+                    options: ["Un intérêt simple calculé une fois par an.", "L'intérêt calculé sur le montant initial et sur les intérêts déjà accumulés.", "Une taxe sur les investissements."],
+                    correctAnswerIndex: 1,
+                    points: 15
+                },
+                { 
+                    question: "Quel actif financier est généralement considéré comme le plus liquide ?", 
+                    options: ["L'immobilier.", "Les actions d'une petite startup.", "L'argent détenu sur un compte courant."],
+                    correctAnswerIndex: 2,
+                    points: 10
+                }
+            ],
+        };
 
-// === FONCTION TIRAGE ALÉATOIRE ===
-function getRandomQuestions(moduleQuestions, count = 5) {
-  const shuffled = [...moduleQuestions].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, Math.min(count, shuffled.length));
-}
+        const DOM = {
+            scoreElement: document.getElementById('user-score'),
+            questionNumElement: document.getElementById('current-q-num'),
+            totalNumElement: document.getElementById('total-q-num'),
+            questionText: document.getElementById('current-question'),
+            optionsContainer: document.getElementById('options-container'),
+            feedbackBox: document.getElementById('feedback-message'),
+            submitBtn: document.getElementById('submit-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            progressBar: document.querySelector('.progress-fill'),
+            quizModule: document.getElementById('quiz-module'),
+            completionScreen: document.getElementById('completion-screen'),
+            finalScore: document.getElementById('final-score'),
+        };
 
-// === RENDU HTML DES QUESTIONS ===
-function renderQuestions(questions, moduleId) {
-  const wrapper = document.querySelector(`#${moduleId} .questions-wrapper`);
-  if (!wrapper) return;
-  
-  wrapper.innerHTML = questions.map((q, idx) => `
-    <article class="question-card">
-      <div class="question-header">
-        <h3>Question ${idx + 1}</h3>
-      </div>
-      <div class="question-body">${q.q}</div>
-      <ul class="options-list">
-        ${q.options.map((opt, i) => `
-          <li><label><input type="radio" name="q${idx}" value="${i}"> ${String.fromCharCode(65+i)}. ${opt}</label></li>
-        `).join('')}
-      </ul>
-    </article>
-  `).join('');
-    
-  // Ajouter boutons validation et reset
-  wrapper.innerHTML += `
-    <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem">
-      <button class="check-btn" style="padding:1rem 2rem;background:#22c55e;color:#fff;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;font-weight:600;box-shadow:0 4px 6px rgba(34,197,94,0.3);transition:all 0.3s">✓ Valider mes réponses</button>
-      <button class="reset-btn" style="padding:1rem 2rem;background:#ef4444;color:#fff;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;font-weight:600;box-shadow:0 4px 6px rgba(239,68,68,0.3);transition:all 0.3s">↻ Recommencer</button>
-    </div>
-    <div class="result" style="text-align:center;margin-top:1.5rem;font-size:1.3rem;font-weight:bold;display:none"></div>
-  `;
-}
+        // --- Fonctions d'État et de Rendu ---
 
-// === INITIALISATION ===
-document.addEventListener('DOMContentLoaded', () => {
-  const home = document.getElementById('home');
-  const modules = ['module1', 'module2', 'module3', 'module4'].map(id => document.getElementById(id));
-  
-  // Navigation modules
-  document.querySelectorAll('.module-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const target = card.dataset.target;
-      const moduleNum = target.replace('module', '');
-      const questionsData = questionBanks[target];
-      
-      if (questionsData) {
-        const randomQuestions = getRandomQuestions(questionsData, 5);
-        renderQuestions(randomQuestions, target);
-        
-        // Stocker les réponses correctes
-        window[`${target}_answers`] = randomQuestions.map(q => q.answer);
-      }
-      
-      home.style.display = 'none';
-      modules.forEach(m => m.style.display = 'none');
-      document.getElementById(target).style.display = 'block';
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
-  });
-  
-  // Boutons retour
-  document.querySelectorAll('.back-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      modules.forEach(m => m.style.display = 'none');
-      home.style.display = 'block';
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
-  });
-  
-  // Boutons vérification
-  document.querySelectorAll('.check-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const module = btn.closest('section');
-      const moduleId = module.id;
-      const correctAnswers = window[`${moduleId}_answers`] || [];
-      let score = 0;
-      
-      module.querySelectorAll('.question-card').forEach((card, idx) => {
-        const selected = card.querySelector('input[type="radio"]:checked');
-        if (selected && parseInt(selected.value) === correctAnswers[idx]) {
-          score++;
-          card.style.borderColor = '#22c55e';
-          card.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
-        } else if (selected) {
-          card.style.borderColor = '#ef4444';
-          card.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+        /**
+         * 4. Gamification UX: Mise à jour du score et de la progression
+         * @param {number} pointsToAdd 
+         */
+        function updateScore(pointsToAdd) {
+            appState.score += pointsToAdd;
+            DOM.scoreElement.textContent = `💰 ${appState.score} Points`;
         }
-      });
-      
-      const resultDiv = module.querySelector('.result');
-      if (resultDiv) {
-        resultDiv.textContent = `Score : ${score}/${correctAnswers.length} (${Math.round(score/correctAnswers.length*100)}%)`;
-        resultDiv.style.fontSize = '1.2rem';
-        resultDiv.style.fontWeight = 'bold';
-        resultDiv.style.color = score >= correctAnswers.length * 0.6 ? '#22c55e' : '#ef4444';
-      }
-    });
-  });
-  
-  // Boutons réinitialisation
-  document.querySelectorAll('.reset-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const module = btn.closest('section');
-      module.querySelectorAll('.question-card').forEach(card => {
-        card.style.borderColor = '';
-        card.style.backgroundColor = '';
-        card.querySelectorAll('input').forEach(input => input.checked = false);
-      });
-      const resultDiv = module.querySelector('.result');
-      if (resultDiv) resultDiv.textContent = '';
-    });
-  });
 
-  // === NOUVEAUX TYPES D'EXERCICES ===
-// Cette section ajoute les calculs, jeopardy et textes à trous
+        function renderQuestion() {
+            const index = appState.currentQuestionIndex;
+            const q = appState.quizData[index];
+            
+            // Mise à jour des numéros de question
+            DOM.questionNumElement.textContent = index + 1;
+            DOM.totalNumElement.textContent = appState.quizData.length;
 
-// Données pour chaque module
-const exerciseData = {
-  calculs: {
-    module1: [
-      {q: "Une entreprise a un actif total de 500 000€ et un passif de 300 000€. Calculez ses capitaux propres.", answer: "200000", unit: "€"},
-      {q: "Si le chiffre d'affaires est de 150 000€ et les charges de 90 000€, quel est le résultat net?", answer: "60000", unit: "€"}
-    ]
-  },
-  jeopardy: {
-    module1: [
-      {category: "Comptabilité", value: 100, q: "Quelle classe du PCG contient les immobilisations?", a: "Classe 2"},
-      {category: "Comptabilité", value: 200, q: "Quel document présente la situation financière à un instant T?", a: "Le bilan"}
-    ]
-  },
-  texteTrous: {
-    module1: [
-      {text: "Le [bilan] présente la situation financière d'une entreprise à une [date] donnée. Il comprend l'[actif] et le [passif].", blanks: ["bilan", "date", "actif", "passif"]}
-    ]
-  }
-};
-});
+            DOM.questionText.textContent = q.question;
+            DOM.optionsContainer.innerHTML = '';
+            
+            // Rendre les options
+            q.options.forEach((option, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'option-btn';
+                btn.dataset.index = idx;
+                btn.innerHTML = `<span class="option-label">${String.fromCharCode(65 + idx)}</span> ${option}`;
+                // 3. WCAG : Gestion du TabIndex pour la navigation au clavier
+                btn.tabIndex = idx === 0 ? 0 : -1; 
+                DOM.optionsContainer.appendChild(btn);
+            });
+            
+            // Mettre à jour la barre de progression (Point 2/4)
+            const progress = (index / appState.quizData.length);
+            // La mise à jour du style CSS déclenche la transition GPU-accelerated
+            DOM.progressBar.style.transform = `scaleX(${progress})`;
 
+            // Réinitialiser les boutons d'action
+            DOM.submitBtn.disabled = true;
+            DOM.submitBtn.hidden = false;
+            DOM.nextBtn.hidden = true;
+            DOM.feedbackBox.hidden = true;
+        }
+        
+        // --- Gestion des Événements ---
+
+        /**
+         * Gère la sélection d'une option et active le bouton Valider
+         */
+        function handleSelection(event) {
+            if (appState.isAnswered) return;
+
+            const selectedBtn = event.target.closest('.option-btn');
+            if (!selectedBtn) return;
+
+            // Retirer la classe 'selected' de tous les boutons
+            DOM.optionsContainer.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.tabIndex = -1; // Désactiver l'indexation pour les autres
+            });
+
+            // Ajouter la classe 'selected' au bouton cliqué et activer le focus/tabindex
+            selectedBtn.classList.add('selected');
+            selectedBtn.tabIndex = 0;
+            
+            DOM.submitBtn.disabled = false;
+        }
+
+        /**
+         * 8. Feedbacks Visuels Immédiats
+         */
+        function handleSubmit() {
+            if (appState.isAnswered) return;
+            
+            const selectedBtn = DOM.optionsContainer.querySelector('.option-btn.selected');
+            if (!selectedBtn) return;
+            
+            appState.isAnswered = true;
+            const selectedIndex = parseInt(selectedBtn.dataset.index);
+            const q = appState.quizData[appState.currentQuestionIndex];
+            
+            const isCorrect = selectedIndex === q.correctAnswerIndex;
+            
+            // Appliquer les classes CSS pour le feedback visuel (point 8)
+            if (isCorrect) {
+                selectedBtn.classList.add('correct');
+                DOM.feedbackBox.innerHTML = `✅ **Correct !** +${q.points} points.`;
+                updateScore(q.points);
+            } else {
+                selectedBtn.classList.add('incorrect');
+                // Montrer la bonne réponse
+                const correctBtn = DOM.optionsContainer.querySelector(`[data-index="${q.correctAnswerIndex}"]`);
+                correctBtn.classList.add('correct'); 
+                DOM.feedbackBox.innerHTML = `❌ **Incorrect.** La bonne réponse était : ${q.options[q.correctAnswerIndex]}.`;
+            }
+            
+            // Afficher le bouton Suivant
+            DOM.submitBtn.hidden = true;
+            DOM.nextBtn.hidden = false;
+            DOM.feedbackBox.hidden = false;
+            
+            // Désactiver toutes les options après la réponse
+            DOM.optionsContainer.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+        }
+
+        function handleNext() {
+            appState.isAnswered = false;
+            appState.currentQuestionIndex++;
+
+            if (appState.currentQuestionIndex < appState.quizData.length) {
+                renderQuestion();
+            } else {
+                // Logique de fin de quiz
+                DOM.finalScore.textContent = appState.score;
+                // Mettre à jour la barre de progression à 100%
+                DOM.progressBar.style.transform = `scaleX(1)`;
+                
+                // Masquer le quiz et afficher l'écran de complétion
+                DOM.quizModule.hidden = true;
+                DOM.completionScreen.hidden = false;
+                
+                // 3. WCAG : Placer le focus sur l'écran de complétion
+                DOM.completionScreen.focus();
+            }
+        }
+
+        // --- Initialisation ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (appState.quizData.length > 0) {
+                renderQuestion();
+            } else {
+                DOM.questionText.textContent = "Aucune question disponible.";
+            }
+        });
+
+        // Écouteurs d'événements (Délégation d'événements pour les options)
+        DOM.optionsContainer.addEventListener('click', handleSelection);
+        DOM.submitBtn.addEventListener('click', handleSubmit);
+        DOM.nextBtn.addEventListener('click', handleNext);
     </script>
-
-  </body>
+</body>
 </html>
